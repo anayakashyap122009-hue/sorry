@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Memory Float 💖</title>
+<title>Puzzle Memory 💖</title>
 
 <style>
 body {
   margin: 0;
-  overflow: hidden;
   font-family: Arial;
+  overflow: hidden;
   background: url("https://images.unsplash.com/photo-1518199266791-5375a83190b7") center/cover no-repeat;
 }
 
@@ -53,7 +53,7 @@ button {
   z-index: 5;
 }
 
-/* grid */
+/* PUZZLE GRID */
 .grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -70,28 +70,31 @@ button {
   width: 100%;
   aspect-ratio: 1/1;
   object-fit: cover;
+
+  /* puzzle shape */
   clip-path: polygon(
     10% 0%, 90% 0%, 100% 20%, 100% 80%,
     90% 100%, 10% 100%, 0% 80%, 0% 20%
   );
+
   transition: 0.5s;
 }
 
-/* floating animation */
+/* FLOAT MODE */
 .float {
   position: absolute !important;
-  width: 90px !important;
-  height: 90px !important;
+  width: 80px !important;
+  height: 80px !important;
   border-radius: 10px;
-  animation: floatAnim 6s linear infinite;
-  opacity: 0.9;
+  opacity: 0.95;
+  animation: floatAnim 6s infinite ease-in-out;
 }
 
 @keyframes floatAnim {
   0%   { transform: translate(0,0) rotate(0deg); }
-  25%  { transform: translate(50px,-80px) rotate(10deg); }
-  50%  { transform: translate(-40px,-150px) rotate(-10deg); }
-  75%  { transform: translate(30px,-220px) rotate(15deg); }
+  25%  { transform: translate(40px,-60px) rotate(8deg); }
+  50%  { transform: translate(-40px,-140px) rotate(-8deg); }
+  75%  { transform: translate(30px,-220px) rotate(10deg); }
   100% { transform: translate(0,-300px) rotate(0deg); }
 }
 </style>
@@ -125,7 +128,7 @@ function start() {
 
   let imgs = [];
 
-  // create images
+  // STEP 1: CREATE PUZZLE
   for (let i = 1; i <= 25; i++) {
     const img = document.createElement("img");
     img.src = `img${i}.jpg`;
@@ -133,16 +136,17 @@ function start() {
     imgs.push(img);
   }
 
-  // show puzzle first
+  // STEP 2: SHOW PUZZLE ANIMATION
   imgs.forEach((img, i) => {
     setTimeout(() => {
-      img.style.opacity = "1";
-    }, i * 100);
+      img.style.transform = "scale(1)";
+    }, i * 80);
   });
 
-  // AFTER PUZZLE → FLOAT EFFECT
+  // STEP 3: AFTER PUZZLE COMPLETE → FLOAT
   setTimeout(() => {
-    imgs.forEach((img) => {
+
+    imgs.forEach(img => {
       let rect = img.getBoundingClientRect();
 
       img.classList.add("float");
@@ -152,7 +156,8 @@ function start() {
 
       document.body.appendChild(img);
     });
-  }, 4000); // after 4 seconds → floating starts
+
+  }, 5000); // wait 5 sec puzzle then float
 }
 </script>
 
