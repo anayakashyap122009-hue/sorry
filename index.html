@@ -9,38 +9,41 @@
 body {
     margin: 0;
     overflow: hidden;
-    background: black;
     font-family: Arial, sans-serif;
 }
 
-/* 🌳 BACKGROUND TREE */
+/* 💕 BACKGROUND */
 .background {
     position: fixed;
     width: 100%;
     height: 100%;
-    background: url('tree.jpg') center/cover no-repeat;
+    background: url('https://images.unsplash.com/photo-1518199266791-5375a83190b7') center/cover no-repeat;
+    filter: blur(6px) brightness(0.7);
     z-index: -1;
 }
 
-/* 💖 CENTER CONTAINER BETWEEN TREES */
+/* 📱 MOBILE PERFECT CENTER BOX */
 .photo-container {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 420px;   /* adjust if needed */
-    height: 520px;
+    width: 90vw;        /* responsive */
+    max-width: 420px;
+    height: 65vh;
     transform: translate(-50%, -50%);
 }
 
 /* 📸 IMAGES */
 .photo-container img {
     position: absolute;
-    width: 95px;
-    height: 95px;
+    width: 22vw;
+    max-width: 95px;
+    height: 22vw;
+    max-height: 95px;
     object-fit: cover;
-    border-radius: 12px;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(255,255,255,0.5);
     transition: 0.5s;
-    box-shadow: 0 0 15px rgba(255,255,255,0.3);
 }
 
 /* ✨ TEXT */
@@ -49,27 +52,57 @@ body {
     bottom: 20px;
     width: 100%;
     text-align: center;
-    font-size: 28px;
+    font-size: 6vw;
+    max-font-size: 28px;
     color: white;
-    text-shadow: 0 0 10px pink, 0 0 20px red;
+    text-shadow: 0 0 10px pink, 0 0 30px red;
     animation: glow 2s infinite alternate;
 }
 
 @keyframes glow {
     from { text-shadow: 0 0 10px pink; }
-    to { text-shadow: 0 0 25px red, 0 0 40px pink; }
+    to { text-shadow: 0 0 30px red, 0 0 60px pink; }
+}
+
+/* 💖 TAP SCREEN */
+.start-screen {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: black;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    z-index: 10;
+}
+
+/* 💖 HEARTS */
+.heart {
+    position: absolute;
+    font-size: 20px;
+    animation: floatUp 6s linear infinite;
+}
+
+@keyframes floatUp {
+    from { transform: translateY(100vh); opacity: 1; }
+    to { transform: translateY(-10vh); opacity: 0; }
 }
 </style>
 </head>
 
 <body>
 
+<div class="start-screen" id="start">
+    Tap to open ❤️
+</div>
+
 <div class="background"></div>
 
-<!-- ❤️ PHOTOS -->
-<div class="photo-container" id="container">
+<div class="photo-container">
 
-    <!-- PUT YOUR 25 IMAGES -->
+    <!-- 📸 YOUR 25 IMAGES -->
     <img src="1.jpg">
     <img src="2.jpg">
     <img src="3.jpg">
@@ -98,40 +131,63 @@ body {
 
 </div>
 
-<!-- 💕 TEXT -->
 <div class="love-text">
-    I loveeeee youuuuuu sooo muchhh myyy darlinggg ❤️
+    I loveeeee youuuu sooo muchhh ❤️
 </div>
 
-<!-- 🎶 MUSIC -->
-<audio autoplay loop>
+<audio id="music" loop>
     <source src="song.mp3" type="audio/mpeg">
 </audio>
 
 <script>
 const images = document.querySelectorAll(".photo-container img");
+const music = document.getElementById("music");
+const startScreen = document.getElementById("start");
 
-images.forEach((img, i) => {
+/* 🎬 START ON TAP (MOBILE FIX) */
+startScreen.addEventListener("click", () => {
+    startScreen.style.display = "none";
 
-    // 🎯 PERFECT CENTER SPREAD (NOT FULL SCREEN)
-    let x = Math.random() * 300;
-    let y = Math.random() * 400;
+    music.currentTime = 15; // skip intro
+    music.play();
 
-    img.style.left = x + "px";
-    img.style.top = y + "px";
-
-    // 🎯 slight rotation for aesthetic
-    let rotate = Math.random() * 20 - 10;
-    img.style.transform = `rotate(${rotate}deg)`;
-
-    // 🎬 reel-style appearing
-    img.style.opacity = 0;
-
-    setTimeout(() => {
-        img.style.opacity = 1;
-    }, i * 200);
+    startAnimation();
 });
+
+/* 📸 IMAGE ANIMATION */
+function startAnimation() {
+    images.forEach((img, i) => {
+        let x = Math.random() * 70;
+        let y = Math.random() * 80;
+
+        img.style.left = x + "%";
+        img.style.top = y + "%";
+
+        let rotate = Math.random() * 20 - 10;
+        img.style.transform = `rotate(${rotate}deg)`;
+
+        img.style.opacity = 0;
+
+        setTimeout(() => {
+            img.style.opacity = 1;
+        }, i * 200);
+    });
+}
+
+/* 💖 HEARTS */
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (Math.random() * 20 + 10) + "px";
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 6000);
+}
+
+setInterval(createHeart, 300);
 </script>
 
 </body>
-</html>
+</html>]
