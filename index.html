@@ -3,23 +3,21 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Our Memory Puzzle 💖</title>
+<title>Memory Float 💖</title>
 
 <style>
 body {
   margin: 0;
-  font-family: Arial;
   overflow: hidden;
+  font-family: Arial;
   background: url("https://images.unsplash.com/photo-1518199266791-5375a83190b7") center/cover no-repeat;
 }
 
-/* dark romantic overlay */
 .overlay {
   position: absolute;
   width: 100%;
   height: 100%;
   background: rgba(0,0,0,0.55);
-  z-index: 0;
 }
 
 /* start screen */
@@ -34,18 +32,12 @@ body {
   z-index: 10;
 }
 
-.startScreen h1 {
-  color: white;
-  text-shadow: 0 0 10px pink;
-}
-
 button {
-  padding: 15px 35px;
+  padding: 15px 30px;
   font-size: 18px;
   border: none;
-  border-radius: 30px;
+  border-radius: 25px;
   background: pink;
-  cursor: pointer;
   box-shadow: 0 0 20px pink;
 }
 
@@ -58,48 +50,49 @@ button {
   color: white;
   font-size: 20px;
   text-shadow: 0 0 10px pink;
-  z-index: 2;
+  z-index: 5;
 }
 
-/* grid puzzle */
+/* grid */
 .grid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 2px;
   width: 90vw;
   max-width: 500px;
+  gap: 2px;
   margin: auto;
   margin-top: 70px;
-  opacity: 0;
-  transition: 1s ease;
-  z-index: 2;
   position: relative;
+  z-index: 2;
 }
 
-.grid.show {
-  opacity: 1;
-}
-
-/* puzzle shape effect */
 .grid img {
   width: 100%;
   aspect-ratio: 1/1;
   object-fit: cover;
-
   clip-path: polygon(
     10% 0%, 90% 0%, 100% 20%, 100% 80%,
     90% 100%, 10% 100%, 0% 80%, 0% 20%
   );
-
-  transform: scale(0.7);
-  opacity: 0;
-  transition: 0.5s ease;
-  filter: brightness(0.9);
+  transition: 0.5s;
 }
 
-.grid img.show {
-  transform: scale(1);
-  opacity: 1;
+/* floating animation */
+.float {
+  position: absolute !important;
+  width: 90px !important;
+  height: 90px !important;
+  border-radius: 10px;
+  animation: floatAnim 6s linear infinite;
+  opacity: 0.9;
+}
+
+@keyframes floatAnim {
+  0%   { transform: translate(0,0) rotate(0deg); }
+  25%  { transform: translate(50px,-80px) rotate(10deg); }
+  50%  { transform: translate(-40px,-150px) rotate(-10deg); }
+  75%  { transform: translate(30px,-220px) rotate(15deg); }
+  100% { transform: translate(0,-300px) rotate(0deg); }
 }
 </style>
 </head>
@@ -110,16 +103,13 @@ button {
 
 <div class="title">💖 I Love You Lakshita Sharma 💖</div>
 
-<!-- START SCREEN -->
 <div class="startScreen" id="startScreen">
-  <h1>💖 Tap to Start 💖</h1>
-  <button onclick="start()">Start Memory</button>
+  <h1 style="color:white;text-shadow:0 0 10px pink;">💖 Tap to Start 💖</h1>
+  <button onclick="start()">Start</button>
 </div>
 
-<!-- GRID -->
 <div class="grid" id="grid"></div>
 
-<!-- MUSIC -->
 <audio id="music" loop>
   <source src="song.mp3" type="audio/mp3">
 </audio>
@@ -131,26 +121,38 @@ function start() {
   const grid = document.getElementById("grid");
   const music = document.getElementById("music");
 
-  grid.classList.add("show");
+  music.play().catch(()=>{});
 
-  // play music (after click → works in browser)
-  music.play().catch(err => console.log("Autoplay blocked"));
+  let imgs = [];
 
-  // create 25 images
+  // create images
   for (let i = 1; i <= 25; i++) {
     const img = document.createElement("img");
     img.src = `img${i}.jpg`;
     grid.appendChild(img);
+    imgs.push(img);
   }
 
-  // animation reveal
-  const imgs = document.querySelectorAll("img");
-
-  imgs.forEach((img, index) => {
+  // show puzzle first
+  imgs.forEach((img, i) => {
     setTimeout(() => {
-      img.classList.add("show");
-    }, index * 120);
+      img.style.opacity = "1";
+    }, i * 100);
   });
+
+  // AFTER PUZZLE → FLOAT EFFECT
+  setTimeout(() => {
+    imgs.forEach((img) => {
+      let rect = img.getBoundingClientRect();
+
+      img.classList.add("float");
+
+      img.style.left = rect.left + "px";
+      img.style.top = rect.top + "px";
+
+      document.body.appendChild(img);
+    });
+  }, 4000); // after 4 seconds → floating starts
 }
 </script>
 
