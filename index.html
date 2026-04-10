@@ -3,129 +3,133 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For My Love ❤️</title>
+<title>Sorry ❤️</title>
 
 <style>
 body {
     margin: 0;
-    background: black;
     overflow: hidden;
+    background: black;
+    font-family: Arial, sans-serif;
 }
 
-/* 🌳 TREE BACKGROUND */
-.tree {
-    position: relative;
-    width: 100vw;
-    height: 100dvh;
-    background: url('tree.jpg') center/contain no-repeat;
+/* 🌳 BACKGROUND TREE */
+.background {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: url('tree.jpg') center/cover no-repeat;
+    z-index: -1;
 }
 
-/* 🧩 SHAPES */
-.shape {
+/* 💖 CENTER CONTAINER BETWEEN TREES */
+.photo-container {
     position: absolute;
-    background-size: cover;
-    background-position: center;
-    opacity: 0;
-    transform: scale(0.5);
-    animation: show 1s forwards;
+    top: 50%;
+    left: 50%;
+    width: 420px;   /* adjust if needed */
+    height: 520px;
+    transform: translate(-50%, -50%);
 }
 
-/* ✨ ANIMATION */
-@keyframes show {
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
+/* 📸 IMAGES */
+.photo-container img {
+    position: absolute;
+    width: 95px;
+    height: 95px;
+    object-fit: cover;
+    border-radius: 12px;
+    transition: 0.5s;
+    box-shadow: 0 0 15px rgba(255,255,255,0.3);
 }
 
-/* 💬 TEXT */
-.text {
+/* ✨ TEXT */
+.love-text {
     position: absolute;
     bottom: 20px;
     width: 100%;
     text-align: center;
+    font-size: 28px;
     color: white;
-    font-size: 18px;
-    text-shadow: 0 0 10px pink;
+    text-shadow: 0 0 10px pink, 0 0 20px red;
+    animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+    from { text-shadow: 0 0 10px pink; }
+    to { text-shadow: 0 0 25px red, 0 0 40px pink; }
 }
 </style>
 </head>
 
 <body>
 
-<audio id="music" loop>
-    <source src="song.mp3" type="audio/mp3">
-</audio>
+<div class="background"></div>
 
-<div class="tree">
+<!-- ❤️ PHOTOS -->
+<div class="photo-container" id="container">
 
-<!-- 🔥 25 SHAPES -->
+    <!-- PUT YOUR 25 IMAGES -->
+    <img src="1.jpg">
+    <img src="2.jpg">
+    <img src="3.jpg">
+    <img src="4.jpg">
+    <img src="5.jpg">
+    <img src="6.jpg">
+    <img src="7.jpg">
+    <img src="8.jpg">
+    <img src="9.jpg">
+    <img src="10.jpg">
+    <img src="11.jpg">
+    <img src="12.jpg">
+    <img src="13.jpg">
+    <img src="14.jpg">
+    <img src="15.jpg">
+    <img src="16.jpg">
+    <img src="17.jpg">
+    <img src="18.jpg">
+    <img src="19.jpg">
+    <img src="20.jpg">
+    <img src="21.jpg">
+    <img src="22.jpg">
+    <img src="23.jpg">
+    <img src="24.jpg">
+    <img src="25.jpg">
 
-<!-- ROW 1 -->
-<div class="shape" style="top:5%; left:25%; width:120px; height:140px; background-image:url('img1.jpg'); clip-path: polygon(20% 0%, 80% 10%, 100% 60%, 60% 100%, 0% 70%); animation-delay:0.3s;"></div>
+</div>
 
-<div class="shape" style="top:8%; left:45%; width:130px; height:150px; background-image:url('img2.jpg'); clip-path: polygon(0% 20%, 90% 0%, 100% 80%, 10% 100%); animation-delay:0.6s;"></div>
-
-<div class="shape" style="top:10%; left:65%; width:110px; height:130px; background-image:url('img3.jpg'); clip-path: polygon(10% 0%, 100% 20%, 80% 100%, 0% 70%); animation-delay:0.9s;"></div>
-
-<!-- ROW 2 -->
-<div class="shape" style="top:25%; left:20%; width:140px; height:150px; background-image:url('img4.jpg'); clip-path: polygon(0% 30%, 70% 0%, 100% 60%, 30% 100%); animation-delay:1.2s;"></div>
-
-<div class="shape" style="top:28%; left:45%; width:120px; height:140px; background-image:url('img5.jpg'); clip-path: polygon(20% 0%, 100% 30%, 80% 100%, 0% 80%); animation-delay:1.5s;"></div>
-
-<div class="shape" style="top:30%; left:65%; width:130px; height:150px; background-image:url('img6.jpg'); clip-path: polygon(0% 20%, 90% 0%, 100% 100%, 20% 90%); animation-delay:1.8s;"></div>
-
-<!-- ROW 3 -->
-<div class="shape" style="top:45%; left:15%; width:150px; height:160px; background-image:url('img7.jpg'); clip-path: polygon(0% 20%, 80% 0%, 100% 100%, 10% 90%); animation-delay:2.1s;"></div>
-
-<div class="shape" style="top:48%; left:40%; width:130px; height:140px; background-image:url('img8.jpg'); clip-path: polygon(10% 0%, 100% 30%, 80% 100%, 0% 80%); animation-delay:2.4s;"></div>
-
-<div class="shape" style="top:50%; left:65%; width:120px; height:140px; background-image:url('img9.jpg'); clip-path: polygon(0% 20%, 90% 0%, 100% 80%, 20% 100%); animation-delay:2.7s;"></div>
-
-<!-- ROW 4 -->
-<div class="shape" style="top:65%; left:20%; width:130px; height:140px; background-image:url('img10.jpg'); clip-path: polygon(0% 30%, 80% 0%, 100% 100%, 10% 90%); animation-delay:3s;"></div>
-
-<div class="shape" style="top:68%; left:45%; width:120px; height:130px; background-image:url('img11.jpg'); clip-path: polygon(10% 0%, 100% 20%, 80% 100%, 0% 80%); animation-delay:3.3s;"></div>
-
-<div class="shape" style="top:70%; left:65%; width:130px; height:140px; background-image:url('img12.jpg'); clip-path: polygon(0% 20%, 90% 0%, 100% 100%, 20% 90%); animation-delay:3.6s;"></div>
-
-<!-- EXTRA FILL -->
-<div class="shape" style="top:15%; left:35%; width:100px; height:120px; background-image:url('img13.jpg'); clip-path: polygon(20% 0%, 80% 0%, 100% 80%, 0% 100%); animation-delay:3.9s;"></div>
-
-<div class="shape" style="top:20%; left:60%; width:100px; height:120px; background-image:url('img14.jpg'); clip-path: polygon(0% 0%, 100% 30%, 80% 100%, 0% 80%); animation-delay:4.2s;"></div>
-
-<div class="shape" style="top:40%; left:55%; width:100px; height:120px; background-image:url('img15.jpg'); clip-path: polygon(20% 0%, 80% 0%, 100% 80%, 0% 100%); animation-delay:4.5s;"></div>
-
-<div class="shape" style="top:55%; left:35%; width:100px; height:120px; background-image:url('img16.jpg'); clip-path: polygon(0% 0%, 100% 30%, 80% 100%, 0% 80%); animation-delay:4.8s;"></div>
-
-<div class="shape" style="top:75%; left:35%; width:100px; height:120px; background-image:url('img17.jpg'); clip-path: polygon(20% 0%, 80% 0%, 100% 80%, 0% 100%); animation-delay:5.1s;"></div>
-
-<div class="shape" style="top:80%; left:55%; width:100px; height:120px; background-image:url('img18.jpg'); clip-path: polygon(0% 0%, 100% 30%, 80% 100%, 0% 80%); animation-delay:5.4s;"></div>
-
-<div class="shape" style="top:35%; left:25%; width:100px; height:120px; background-image:url('img19.jpg'); clip-path: polygon(20% 0%, 80% 0%, 100% 80%, 0% 100%); animation-delay:5.7s;"></div>
-
-<div class="shape" style="top:60%; left:60%; width:100px; height:120px; background-image:url('img20.jpg'); clip-path: polygon(0% 0%, 100% 30%, 80% 100%, 0% 80%); animation-delay:6s;"></div>
-
-<div class="shape" style="top:10%; left:50%; width:90px; height:110px; background-image:url('img21.jpg'); clip-path: polygon(20% 0%, 80% 0%, 100% 80%, 0% 100%); animation-delay:6.3s;"></div>
-
-<div class="shape" style="top:30%; left:70%; width:90px; height:110px; background-image:url('img22.jpg'); clip-path: polygon(0% 0%, 100% 30%, 80% 100%, 0% 80%); animation-delay:6.6s;"></div>
-
-<div class="shape" style="top:50%; left:30%; width:90px; height:110px; background-image:url('img23.jpg'); clip-path: polygon(20% 0%, 80% 0%, 100% 80%, 0% 100%); animation-delay:6.9s;"></div>
-
-<div class="shape" style="top:70%; left:50%; width:90px; height:110px; background-image:url('img24.jpg'); clip-path: polygon(0% 0%, 100% 30%, 80% 100%, 0% 80%); animation-delay:7.2s;"></div>
-
-<div class="shape" style="top:85%; left:45%; width:90px; height:110px; background-image:url('img25.jpg'); clip-path: polygon(20% 0%, 80% 0%, 100% 80%, 0% 100%); animation-delay:7.5s;"></div>
-
-<!-- 💖 TEXT -->
-<div class="text">
+<!-- 💕 TEXT -->
+<div class="love-text">
     I loveeeee youuuuuu sooo muchhh myyy darlinggg ❤️
 </div>
 
-</div>
+<!-- 🎶 MUSIC -->
+<audio autoplay loop>
+    <source src="song.mp3" type="audio/mpeg">
+</audio>
 
 <script>
-document.body.addEventListener("click", () => {
-    document.getElementById("music").play();
+const images = document.querySelectorAll(".photo-container img");
+
+images.forEach((img, i) => {
+
+    // 🎯 PERFECT CENTER SPREAD (NOT FULL SCREEN)
+    let x = Math.random() * 300;
+    let y = Math.random() * 400;
+
+    img.style.left = x + "px";
+    img.style.top = y + "px";
+
+    // 🎯 slight rotation for aesthetic
+    let rotate = Math.random() * 20 - 10;
+    img.style.transform = `rotate(${rotate}deg)`;
+
+    // 🎬 reel-style appearing
+    img.style.opacity = 0;
+
+    setTimeout(() => {
+        img.style.opacity = 1;
+    }, i * 200);
 });
 </script>
 
