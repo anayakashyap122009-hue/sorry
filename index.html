@@ -3,161 +3,154 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Heart Memory 💖</title>
+<title>Forever Us 💖</title>
 
 <style>
-body {
-  margin: 0;
-  overflow: hidden;
+body{
+  margin:0;
+  overflow:hidden;
+  background: radial-gradient(circle at center, #1a001f, #000);
   font-family: Arial;
-  background: url("https://images.unsplash.com/photo-1518199266791-5375a83190b7") center/cover no-repeat;
-}
-
-.overlay {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.6);
 }
 
 /* start screen */
-.startScreen {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  z-index: 10;
+.startScreen{
+  position:fixed;
+  width:100%;
+  height:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  background:black;
+  z-index:10;
 }
 
-button {
-  padding: 15px 30px;
-  font-size: 18px;
-  border: none;
-  border-radius: 25px;
-  background: pink;
-  box-shadow: 0 0 20px pink;
+button{
+  padding:15px 35px;
+  font-size:18px;
+  border:none;
+  border-radius:30px;
+  background:pink;
+  box-shadow:0 0 20px pink;
+  cursor:pointer;
 }
 
 /* title */
-.title {
-  position: absolute;
-  top: 15px;
-  width: 100%;
-  text-align: center;
-  color: white;
-  font-size: 20px;
-  text-shadow: 0 0 10px pink;
-  z-index: 5;
+.title{
+  position:absolute;
+  top:15px;
+  width:100%;
+  text-align:center;
+  color:white;
+  font-size:20px;
+  text-shadow:0 0 15px pink;
+  z-index:5;
 }
 
-/* HEART GRID using custom placement */
-.grid {
-  width: 100vw;
-  height: 100vh;
-  position: relative;
+/* canvas area */
+.stage{
+  position:relative;
+  width:100vw;
+  height:100vh;
 }
 
-.grid img {
-  width: 60px;
-  height: 60px;
-  object-fit: cover;
-  position: absolute;
-  border-radius: 10px;
-  transition: 0.5s;
+/* images */
+.photo{
+  width:55px;
+  height:55px;
+  object-fit:cover;
+  position:absolute;
+  border-radius:10px;
+  opacity:0;
+  transform:scale(0);
+  transition:1s ease;
+  box-shadow:0 0 10px rgba(255,192,203,0.4);
 }
 
-/* floating animation */
-.float {
-  position: absolute !important;
+/* floating */
+.float{
   animation: floatAnim 6s ease-in-out infinite;
-  box-shadow: 0 0 15px pink;
+  opacity:0.95;
 }
 
-@keyframes floatAnim {
-  0%   { transform: translate(0,0); }
-  25%  { transform: translate(50px,-80px); }
-  50%  { transform: translate(-40px,-160px); }
-  75%  { transform: translate(30px,-240px); }
-  100% { transform: translate(0,-320px); }
+@keyframes floatAnim{
+  0%{transform:translate(0,0) rotate(0deg);}
+  25%{transform:translate(40px,-60px) rotate(5deg);}
+  50%{transform:translate(-40px,-140px) rotate(-5deg);}
+  75%{transform:translate(30px,-220px) rotate(5deg);}
+  100%{transform:translate(0,-300px) rotate(0deg);}
 }
 </style>
 </head>
 
 <body>
 
-<div class="overlay"></div>
-
-<div class="title">💖 I Love You Lakshita Sharma 💖</div>
+<div class="title">💖 I Love You 💖</div>
 
 <div class="startScreen" id="startScreen">
-  <h1 style="color:white;text-shadow:0 0 10px pink;">💖 Tap to Start 💖</h1>
-  <button onclick="start()">Start</button>
+  <h1 style="color:white;text-shadow:0 0 10px pink;">Tap to Enter 💖</h1>
+  <button onclick="start()">Start Memory</button>
 </div>
 
-<div class="grid" id="grid"></div>
+<div class="stage" id="stage"></div>
 
 <audio id="music" loop>
   <source src="song.mp3" type="audio/mp3">
 </audio>
 
 <script>
-function start() {
-  document.getElementById("startScreen").style.display = "none";
+function start(){
+  document.getElementById("startScreen").style.display="none";
 
-  const grid = document.getElementById("grid");
-  const music = document.getElementById("music");
+  const stage=document.getElementById("stage");
+  const music=document.getElementById("music");
 
   music.play().catch(()=>{});
 
-  let imgs = [];
+  let imgs=[];
 
-  // HEART SHAPE COORDINATES (25 positions)
-  const positions = [
-    [60,40],[100,40],[140,40],[180,40],[220,40],
-    [40,80],[80,80],[120,80],[160,80],[200,80],
-    [30,120],[70,120],[110,120],[150,120],[190,120],
-    [50,160],[90,160],[130,160],[170,160],[210,160],
-    [80,200],[120,200],[160,200],
-    [100,240],[140,240]
+  // 💖 HEART SHAPE POSITIONS (25 points)
+  const pos=[
+    [60,40],[110,40],[160,40],[210,40],[260,40],
+    [40,80],[90,80],[140,80],[190,80],[240,80],
+    [30,130],[80,130],[130,130],[180,130],[230,130],
+    [50,180],[100,180],[150,180],[200,180],[250,180],
+    [90,230],[140,230],[190,230],
+    [110,280],[160,280]
   ];
 
-  // STEP 1: create heart puzzle
-  for (let i = 1; i <= 25; i++) {
-    const img = document.createElement("img");
-    img.src = `img${i}.jpg`;
+  // create images
+  for(let i=1;i<=25;i++){
+    const img=document.createElement("img");
+    img.src=`img${i}.jpg`;
+    img.className="photo";
 
-    img.style.left = positions[i-1][0] + "px";
-    img.style.top = positions[i-1][1] + "px";
+    img.style.left=pos[i-1][0]+"px";
+    img.style.top=pos[i-1][1]+"px";
 
-    grid.appendChild(img);
+    stage.appendChild(img);
     imgs.push(img);
   }
 
-  // STEP 2: reveal effect
-  imgs.forEach((img, i) => {
-    setTimeout(() => {
-      img.style.transform = "scale(1)";
-    }, i * 80);
+  // reveal cinematic
+  imgs.forEach((img,i)=>{
+    setTimeout(()=>{
+      img.style.opacity="1";
+      img.style.transform="scale(1)";
+    }, i*100);
   });
 
-  // STEP 3: FLOAT ALL AFTER HEART COMPLETE
-  setTimeout(() => {
-
-    imgs.forEach(img => {
-      let rect = img.getBoundingClientRect();
-
+  // AFTER HEART COMPLETE → FLOAT ALL
+  setTimeout(()=>{
+    imgs.forEach(img=>{
+      let r=img.getBoundingClientRect();
       img.classList.add("float");
-
-      img.style.left = rect.left + "px";
-      img.style.top = rect.top + "px";
-
+      img.style.left=r.left+"px";
+      img.style.top=r.top+"px";
       document.body.appendChild(img);
     });
-
-  }, 5000);
+  },6000);
 
 }
 </script>
