@@ -1,21 +1,19 @@
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Forever Sorry 💖</title>
+<title>Heart & Words 💖</title>
 
 <style>
 body{
   margin:0;
-  overflow:hidden;
   background:radial-gradient(circle,#1a001f,#000);
   font-family:Arial;
+  overflow:hidden;
 }
 
+/* START SCREEN */
 .startScreen{
   position:fixed;
   width:100%;
@@ -37,53 +35,42 @@ button{
   font-size:18px;
 }
 
-/* stage */
-.stage{
-  position:relative;
-  width:100vw;
-  height:100vh;
+/* TOP HEART AREA */
+.top{
+  position:absolute;
+  top:0;
+  width:100%;
+  height:50vh;
+}
+
+/* BOTTOM TEXT AREA */
+.bottom{
+  position:absolute;
+  bottom:0;
+  width:100%;
+  height:50vh;
+  color:white;
+  padding:10px 15px;
+  overflow-y:auto;
+  text-align:center;
+  font-size:15px;
+  line-height:1.6;
+  text-shadow:0 0 10px pink;
 }
 
 /* images */
 .photo{
   width:55px;
   height:55px;
-  position:absolute;
   object-fit:cover;
-  border-radius:10px;
-  opacity:0;
-  transform:scale(0);
-  transition:1s;
-  box-shadow:0 0 10px rgba(255,192,203,0.3);
-}
-
-/* floating */
-.float{
-  animation:floatAnim 6s ease-in-out infinite;
-}
-
-@keyframes floatAnim{
-  0%{transform:translate(0,0);}
-  25%{transform:translate(40px,-60px);}
-  50%{transform:translate(-40px,-140px);}
-  75%{transform:translate(30px,-220px);}
-  100%{transform:translate(0,-300px);}
-}
-
-/* paragraph */
-#para{
   position:absolute;
-  bottom:20px;
-  width:90%;
-  left:5%;
-  color:white;
-  font-size:18px;
-  text-align:center;
-  line-height:1.8;
-  text-shadow:0 0 10px pink;
-  z-index:20;
-  max-height:40vh;
-  overflow:auto;
+  border-radius:10px;
+  transition:1s;
+}
+
+/* scroll look */
+.bottom::-webkit-scrollbar{
+  display:none;
 }
 </style>
 </head>
@@ -95,9 +82,9 @@ button{
   <button onclick="start()">Start</button>
 </div>
 
-<div class="stage" id="stage"></div>
+<div class="top" id="top"></div>
 
-<div id="para"></div>
+<div class="bottom" id="bottom"></div>
 
 <audio id="music" loop>
   <source src="song.mp3" type="audio/mp3">
@@ -107,23 +94,23 @@ button{
 function start(){
   document.getElementById("startScreen").style.display="none";
 
-  const stage=document.getElementById("stage");
+  const top=document.getElementById("top");
+  const bottom=document.getElementById("bottom");
   const music=document.getElementById("music");
-  const para=document.getElementById("para");
 
   music.play().catch(()=>{});
 
-  let imgs=[];
-
-  // 💖 HEART POSITIONS
+  // 💖 HEART POSITIONS (top half only)
   const pos=[
-    [60,40],[110,40],[160,40],[210,40],[260,40],
-    [40,80],[90,80],[140,80],[190,80],[240,80],
-    [30,130],[80,130],[130,130],[180,130],[230,130],
-    [50,180],[100,180],[150,180],[200,180],[250,180],
-    [90,230],[140,230],[190,230],
-    [110,280],[160,280]
+    [60,20],[110,20],[160,20],[210,20],[260,20],
+    [40,60],[90,60],[140,60],[190,60],[240,60],
+    [30,100],[80,100],[130,100],[180,100],[230,100],
+    [50,140],[100,140],[150,140],[200,140],[250,140],
+    [90,180],[140,180],[190,180],
+    [110,220],[160,220]
   ];
+
+  let imgs=[];
 
   for(let i=1;i<=25;i++){
     const img=document.createElement("img");
@@ -133,7 +120,7 @@ function start(){
     img.style.left=pos[i-1][0]+"px";
     img.style.top=pos[i-1][1]+"px";
 
-    stage.appendChild(img);
+    top.appendChild(img);
     imgs.push(img);
   }
 
@@ -141,51 +128,39 @@ function start(){
   imgs.forEach((img,i)=>{
     setTimeout(()=>{
       img.style.opacity="1";
-      img.style.transform="scale(1)";
     },i*80);
   });
 
-  // float + start letter after formation
+  // 💖 LONG APOLOGY TEXT (BOTTOM HALF)
   setTimeout(()=>{
 
-    imgs.forEach(img=>{
-      let r=img.getBoundingClientRect();
-      img.classList.add("float");
-      img.style.left=r.left+"px";
-      img.style.top=r.top+"px";
-      document.body.appendChild(img);
-    });
+    const text =
+    "I am truly sorry for everything I ever did that hurt you. " +
+    "You are the most important person in my life and I never want to lose you. " +
+    "Every mistake I made taught me how precious you are to me. " +
+    "I promise to improve myself, to understand you better, and to never repeat my mistakes again. " +
+    "You are my peace, my happiness, and my favorite part of life. " +
+    "No matter how far we are or how hard things get, my feelings for you will always stay the same. ";
 
-    startLongApology();
-
-  },6000);
-}
-
-/* 💖 GENERATE LONG APOLOGY (SAFE 20K+ WORD STYLE) */
-function startLongApology(){
-
-  const base =
-  "I am truly sorry for everything I ever did that hurt you. " +
-  "You are the most important person in my life and I never want to lose you. " +
-  "Every mistake I made, I carry it in my heart and I wish I could go back and fix it. ";
-
-  let bigText = "";
-  for(let i=0;i<800;i++){ // generates HUGE paragraph safely
-    bigText += base + " ";
-  }
-
-  const para=document.getElementById("para");
-  let i=0;
-
-  function type(){
-    if(i<bigText.length){
-      para.innerHTML += bigText[i]===" " ? "&nbsp;" : bigText[i];
-      i++;
-      setTimeout(type,10); // smooth fast typing
+    let bigText="";
+    for(let i=0;i<500;i++){
+      bigText += text + " ";
     }
-  }
 
-  type();
+    let i=0;
+
+    function type(){
+      if(i<bigText.length){
+        bottom.innerHTML += bigText[i]===" " ? "&nbsp;" : bigText[i];
+        i++;
+        setTimeout(type,5);
+      }
+    }
+
+    type();
+
+  },3000);
+
 }
 </script>
 
