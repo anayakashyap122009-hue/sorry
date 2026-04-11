@@ -3,25 +3,17 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Forever Story 💖</title>
+<title>Forever Cinematic 💖</title>
 
 <style>
 body{
   margin:0;
   overflow:hidden;
   font-family:Arial;
-  background: url("https://images.unsplash.com/photo-1518199266791-5375a83190b7") center/cover no-repeat;
+  background: radial-gradient(circle,#1a001f,#000);
 }
 
-/* overlay */
-.overlay{
-  position:absolute;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.45);
-}
-
-/* start screen */
+/* START */
 .startScreen{
   position:fixed;
   width:100%;
@@ -35,11 +27,11 @@ body{
 }
 
 button{
-  padding:15px 30px;
+  padding:15px 35px;
   border:none;
-  border-radius:25px;
+  border-radius:30px;
   background:pink;
-  box-shadow:0 0 20px pink;
+  box-shadow:0 0 25px pink;
   font-size:18px;
 }
 
@@ -48,65 +40,101 @@ button{
   position:absolute;
   top:0;
   width:100%;
-  height:55vh;
+  height:50vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+/* HEART container pulse */
+.heartBox{
+  width:260px;
+  height:260px;
+  position:relative;
+  animation:beat 1.5s infinite;
+}
+
+@keyframes beat{
+  0%{transform:scale(1);}
+  50%{transform:scale(1.08);}
+  100%{transform:scale(1);}
 }
 
 /* images */
 .photo{
-  width:55px;
-  height:55px;
+  width:52px;
+  height:52px;
   position:absolute;
   border-radius:10px;
   object-fit:cover;
 }
 
-/* BOTTOM STORY AREA */
+/* BOTTOM STORY */
 .bottom{
   position:absolute;
   bottom:0;
   width:100%;
-  height:45vh;
+  height:50vh;
   overflow:hidden;
   background:rgba(0,0,0,0.35);
   display:flex;
   justify-content:center;
-  align-items:flex-start;
+  align-items:center;
 }
 
-/* vertical text */
 .story{
   width:90%;
   color:white;
-  font-size:18px;
+  font-size:17px;
   line-height:1.8;
   text-align:center;
   text-shadow:0 0 10px pink;
 
   transform:translateY(100%);
-  animation:scrollUp 40s linear forwards;
+  animation:scrollUp 45s linear forwards;
 }
 
 @keyframes scrollUp{
   from{transform:translateY(100%);}
-  to{transform:translateY(-100%);}
+  to{transform:translateY(-120%);}
+}
+
+/* FINAL TEXT */
+.finalLove{
+  position:absolute;
+  width:100%;
+  text-align:center;
+  bottom:20px;
+  color:pink;
+  font-size:22px;
+  opacity:0;
+  text-shadow:0 0 20px pink;
+  animation:fadeIn 3s forwards;
+  animation-delay:40s;
+}
+
+@keyframes fadeIn{
+  to{opacity:1;}
 }
 </style>
 </head>
 
 <body>
 
-<div class="overlay"></div>
-
 <div class="startScreen" id="startScreen">
-  <h1 style="color:white;text-shadow:0 0 10px pink;">💖 Tap to Start 💖</h1>
+  <h1 style="color:white;text-shadow:0 0 10px pink;">💖 Enter Our Memory 💖</h1>
   <button onclick="start()">Start</button>
 </div>
 
-<div class="top" id="top"></div>
+<div class="top">
+  <div class="heartBox" id="heartBox"></div>
+</div>
 
 <div class="bottom">
   <div class="story" id="story"></div>
 </div>
+
+<div class="finalLove">💖 I LOVE YOU 💖</div>
 
 <audio id="music" loop>
   <source src="song.mp3" type="audio/mp3">
@@ -116,23 +144,21 @@ button{
 function start(){
   document.getElementById("startScreen").style.display="none";
 
-  const top=document.getElementById("top");
+  const heartBox=document.getElementById("heartBox");
   const story=document.getElementById("story");
   const music=document.getElementById("music");
 
   music.play().catch(()=>{});
 
-  // 💖 HEART POSITIONS
+  // 💖 HEART POSITIONS (inside box)
   const pos=[
-    [60,30],[110,30],[160,30],[210,30],[260,30],
-    [40,70],[90,70],[140,70],[190,70],[240,70],
-    [30,120],[80,120],[130,120],[180,120],[230,120],
-    [50,170],[100,170],[150,170],[200,170],[250,170],
-    [90,220],[140,220],[190,220],
-    [110,270],[160,270]
+    [20,20],[70,20],[120,20],[170,20],[220,20],
+    [10,70],[60,70],[110,70],[160,70],[210,70],
+    [0,120],[50,120],[100,120],[150,120],[200,120],
+    [20,170],[70,170],[120,170],[170,170],[220,170],
+    [60,220],[110,220],[160,220],
+    [80,270],[130,270]
   ];
-
-  let imgs=[];
 
   for(let i=1;i<=25;i++){
     const img=document.createElement("img");
@@ -142,27 +168,19 @@ function start(){
     img.style.left=pos[i-1][0]+"px";
     img.style.top=pos[i-1][1]+"px";
 
-    top.appendChild(img);
-    imgs.push(img);
+    heartBox.appendChild(img);
   }
 
-  // show heart
-  imgs.forEach((img,i)=>{
-    setTimeout(()=>{
-      img.style.opacity="1";
-    },i*80);
-  });
-
-  // 💖 VERTICAL STORY TEXT
+  // 💖 LONG CINEMATIC STORY
   const text =
-  "I am truly sorry for everything. You are the most important person in my life. I never want to lose you. Every mistake I made taught me how much you mean to me. I promise to change, to understand you better, and to always respect your feelings. You are my peace, my happiness, and my forever. No matter what happens, my heart always chooses you... ";
+  "I am truly sorry for everything I did wrong. You are not just someone in my life, you are my entire emotional world. Every moment without you feels incomplete. I promise to become better, to understand you deeper, and to never hurt you again. You are my peace, my happiness, and my forever. If I could rewrite my past, I would only rewrite it for you... ";
 
-  let bigText="";
-  for(let i=0;i<300;i++){
-    bigText += text + " ";
+  let big="";
+  for(let i=0;i<400;i++){
+    big+=text+" ";
   }
 
-  story.innerHTML = bigText;
+  story.innerHTML=big;
 }
 </script>
 
