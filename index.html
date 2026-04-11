@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Love Story 💖</title>
+<title>Forever Story 💖</title>
 
 <style>
 body{
@@ -13,7 +13,7 @@ body{
   background: url("https://images.unsplash.com/photo-1518199266791-5375a83190b7") center/cover no-repeat;
 }
 
-/* soft romantic overlay */
+/* overlay */
 .overlay{
   position:absolute;
   width:100%;
@@ -28,9 +28,9 @@ body{
   height:100%;
   background:black;
   display:flex;
-  flex-direction:column;
   justify-content:center;
   align-items:center;
+  flex-direction:column;
   z-index:10;
 }
 
@@ -43,12 +43,12 @@ button{
   font-size:18px;
 }
 
-/* TOP HEART AREA */
+/* TOP HEART */
 .top{
   position:absolute;
   top:0;
   width:100%;
-  height:60vh;
+  height:55vh;
 }
 
 /* images */
@@ -60,31 +60,35 @@ button{
   object-fit:cover;
 }
 
-/* BOTTOM TICKER AREA */
+/* BOTTOM STORY AREA */
 .bottom{
   position:absolute;
   bottom:0;
   width:100%;
-  height:40vh;
+  height:45vh;
   overflow:hidden;
-  background:rgba(0,0,0,0.4);
+  background:rgba(0,0,0,0.35);
   display:flex;
-  align-items:center;
+  justify-content:center;
+  align-items:flex-start;
 }
 
-/* scrolling text */
-.ticker{
-  white-space:nowrap;
+/* vertical text */
+.story{
+  width:90%;
   color:white;
   font-size:18px;
+  line-height:1.8;
+  text-align:center;
   text-shadow:0 0 10px pink;
-  animation:scroll 60s linear infinite;
-  padding-left:100%;
+
+  transform:translateY(100%);
+  animation:scrollUp 40s linear forwards;
 }
 
-@keyframes scroll{
-  from{transform:translateX(0);}
-  to{transform:translateX(-100%);}
+@keyframes scrollUp{
+  from{transform:translateY(100%);}
+  to{transform:translateY(-100%);}
 }
 </style>
 </head>
@@ -94,14 +98,14 @@ button{
 <div class="overlay"></div>
 
 <div class="startScreen" id="startScreen">
-  <h1 style="color:white;text-shadow:0 0 10px pink;">💖 Tap to Enter 💖</h1>
+  <h1 style="color:white;text-shadow:0 0 10px pink;">💖 Tap to Start 💖</h1>
   <button onclick="start()">Start</button>
 </div>
 
 <div class="top" id="top"></div>
 
 <div class="bottom">
-  <div class="ticker" id="ticker"></div>
+  <div class="story" id="story"></div>
 </div>
 
 <audio id="music" loop>
@@ -113,7 +117,7 @@ function start(){
   document.getElementById("startScreen").style.display="none";
 
   const top=document.getElementById("top");
-  const ticker=document.getElementById("ticker");
+  const story=document.getElementById("story");
   const music=document.getElementById("music");
 
   music.play().catch(()=>{});
@@ -149,17 +153,16 @@ function start(){
     },i*80);
   });
 
-  // 💖 LONG ROMANTIC HORIZONTAL PARA
+  // 💖 VERTICAL STORY TEXT
   const text =
-  "I am truly sorry for everything I did, you mean the world to me, I will always care for you, I will always respect you, you are my happiness, my peace, my smile, my forever... ";
+  "I am truly sorry for everything. You are the most important person in my life. I never want to lose you. Every mistake I made taught me how much you mean to me. I promise to change, to understand you better, and to always respect your feelings. You are my peace, my happiness, and my forever. No matter what happens, my heart always chooses you... ";
 
   let bigText="";
-  for(let i=0;i<200;i++){
-    bigText += text + " ❤️ ";
+  for(let i=0;i<300;i++){
+    bigText += text + " ";
   }
 
-  ticker.innerHTML = bigText;
-
+  story.innerHTML = bigText;
 }
 </script>
 
