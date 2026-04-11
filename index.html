@@ -3,138 +3,113 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Forever Cinematic 💖</title>
+<title>Forever Us 💖</title>
 
 <style>
 body{
   margin:0;
   overflow:hidden;
   font-family:Arial;
-  background: radial-gradient(circle,#1a001f,#000);
+  background:url("https://images.unsplash.com/photo-1518199266791-5375a83190b7") center/cover no-repeat;
 }
 
-/* START */
+/* dark overlay */
+.overlay{
+  position:absolute;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.55);
+}
+
+/* start screen */
 .startScreen{
   position:fixed;
   width:100%;
   height:100%;
   background:black;
   display:flex;
+  flex-direction:column;
   justify-content:center;
   align-items:center;
-  flex-direction:column;
   z-index:10;
 }
 
 button{
-  padding:15px 35px;
+  padding:15px 30px;
   border:none;
-  border-radius:30px;
+  border-radius:25px;
   background:pink;
-  box-shadow:0 0 25px pink;
+  box-shadow:0 0 20px pink;
   font-size:18px;
 }
 
-/* TOP HEART */
+/* TOP HEART AREA */
 .top{
   position:absolute;
   top:0;
   width:100%;
-  height:50vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
-
-/* HEART container pulse */
-.heartBox{
-  width:260px;
-  height:260px;
-  position:relative;
-  animation:beat 1.5s infinite;
-}
-
-@keyframes beat{
-  0%{transform:scale(1);}
-  50%{transform:scale(1.08);}
-  100%{transform:scale(1);}
+  height:55vh;
 }
 
 /* images */
 .photo{
-  width:52px;
-  height:52px;
+  width:55px;
+  height:55px;
   position:absolute;
   border-radius:10px;
   object-fit:cover;
 }
 
-/* BOTTOM STORY */
+/* BOTTOM STORY AREA */
 .bottom{
   position:absolute;
   bottom:0;
   width:100%;
-  height:50vh;
+  height:45vh;
   overflow:hidden;
-  background:rgba(0,0,0,0.35);
   display:flex;
   justify-content:center;
   align-items:center;
+  background:rgba(0,0,0,0.35);
 }
 
+/* story text */
 .story{
   width:90%;
   color:white;
-  font-size:17px;
+  font-size:18px;
   line-height:1.8;
   text-align:center;
   text-shadow:0 0 10px pink;
-
-  transform:translateY(100%);
-  animation:scrollUp 45s linear forwards;
 }
 
-@keyframes scrollUp{
-  from{transform:translateY(100%);}
-  to{transform:translateY(-120%);}
-}
-
-/* FINAL TEXT */
-.finalLove{
-  position:absolute;
-  width:100%;
-  text-align:center;
-  bottom:20px;
-  color:pink;
-  font-size:22px;
+.line{
   opacity:0;
-  text-shadow:0 0 20px pink;
-  animation:fadeIn 3s forwards;
-  animation-delay:40s;
+  transform:translateY(10px);
+  transition:1s ease;
 }
 
-@keyframes fadeIn{
-  to{opacity:1;}
+.line.show{
+  opacity:1;
+  transform:translateY(0);
 }
 </style>
 </head>
 
 <body>
 
+<div class="overlay"></div>
+
 <div class="startScreen" id="startScreen">
-  <h1 style="color:white;text-shadow:0 0 10px pink;">💖 Enter Our Memory 💖</h1>
+  <h1 style="color:white;text-shadow:0 0 10px pink;">💖 Tap to Start 💖</h1>
   <button onclick="start()">Start</button>
 </div>
 
-<div class="top">
-  <div class="heartBox" id="heartBox"></div>
-</div>
+<div class="top" id="top"></div>
 
 <div class="bottom">
   <div class="story" id="story"></div>
 </div>
-
-<div class="finalLove">💖 I LOVE YOU 💖</div>
 
 <audio id="music" loop>
   <source src="song.mp3" type="audio/mp3">
@@ -144,21 +119,23 @@ button{
 function start(){
   document.getElementById("startScreen").style.display="none";
 
-  const heartBox=document.getElementById("heartBox");
+  const top=document.getElementById("top");
   const story=document.getElementById("story");
   const music=document.getElementById("music");
 
   music.play().catch(()=>{});
 
-  // 💖 HEART POSITIONS (inside box)
+  /* 💖 HEART POSITIONS */
   const pos=[
-    [20,20],[70,20],[120,20],[170,20],[220,20],
-    [10,70],[60,70],[110,70],[160,70],[210,70],
-    [0,120],[50,120],[100,120],[150,120],[200,120],
-    [20,170],[70,170],[120,170],[170,170],[220,170],
-    [60,220],[110,220],[160,220],
-    [80,270],[130,270]
+    [60,20],[110,20],[160,20],[210,20],[260,20],
+    [40,60],[90,60],[140,60],[190,60],[240,60],
+    [30,110],[80,110],[130,110],[180,110],[230,110],
+    [50,160],[100,160],[150,160],[200,160],[250,160],
+    [90,210],[140,210],[190,210],
+    [110,260],[160,260]
   ];
+
+  let imgs=[];
 
   for(let i=1;i<=25;i++){
     const img=document.createElement("img");
@@ -168,19 +145,58 @@ function start(){
     img.style.left=pos[i-1][0]+"px";
     img.style.top=pos[i-1][1]+"px";
 
-    heartBox.appendChild(img);
+    top.appendChild(img);
+    imgs.push(img);
   }
 
-  // 💖 LONG CINEMATIC STORY
-  const text =
-  "I am truly sorry for everything I did wrong. You are not just someone in my life, you are my entire emotional world. Every moment without you feels incomplete. I promise to become better, to understand you deeper, and to never hurt you again. You are my peace, my happiness, and my forever. If I could rewrite my past, I would only rewrite it for you... ";
+  /* show heart */
+  imgs.forEach((img,i)=>{
+    setTimeout(()=>{
+      img.style.opacity="1";
+    },i*80);
+  });
 
-  let big="";
-  for(let i=0;i<400;i++){
-    big+=text+" ";
-  }
+  /* 💖 LINE BY LINE STORY */
+  setTimeout(()=>{
 
-  story.innerHTML=big;
+    const lines=[
+      "I am truly sorry for everything I did.",
+      "You are the most important person in my life.",
+      "I never want to lose you.",
+      "Every mistake made me realize your value.",
+      "You are my peace, my happiness, my forever.",
+      "Without you, everything feels incomplete.",
+      "I promise to become better for you.",
+      "I promise to understand you more deeply.",
+      "I promise to always respect you.",
+      "If I could rewrite my past, I would choose you every time.",
+      "You are my heart, my soul, my everything."
+    ];
+
+    story.innerHTML="";
+
+    let i=0;
+
+    function showLine(){
+      if(i<lines.length){
+
+        const div=document.createElement("div");
+        div.className="line";
+        div.innerText=lines[i];
+
+        story.appendChild(div);
+
+        setTimeout(()=>div.classList.add("show"),100);
+
+        i++;
+        setTimeout(showLine,2000); // slow readable speed
+      }
+    }
+
+    showLine();
+
+  },3000);
+
 }
 </script>
 
